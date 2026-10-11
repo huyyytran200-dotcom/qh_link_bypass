@@ -1,95 +1,218 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0b1220">
-<title>QH Link Bypass</title>
-<style>
-*{box-sizing:border-box}
-body{
-  margin:0;min-height:100vh;padding:24px 16px;
-  background:#0b1220;color:#f3f7ff;
-  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-}
-main{max-width:520px;margin:35px auto}
-.brand{text-align:center;margin-bottom:35px}
-.logo{
-  width:80px;height:80px;border-radius:24px;
-  display:grid;place-items:center;margin:auto;
-  background:linear-gradient(135deg,#38bdf8,#2563eb);
-  font-size:30px;font-weight:bold;
-}
-h1{font-size:30px;margin:20px 0 10px}
-.subtitle{color:#9fb1ca;font-size:17px}
-.panel{
-  background:#142238;border:1px solid #2a405e;
-  border-radius:24px;padding:24px;
-}
-label{display:block;font-weight:700;margin-bottom:12px}
-input{
-  width:100%;padding:17px 14px;border-radius:15px;
-  border:1px solid #39516f;background:#091323;
-  color:white;font-size:16px;outline:none;
-}
-button{
-  width:100%;padding:18px;margin-top:20px;
-  border:0;border-radius:15px;
-  background:linear-gradient(100deg,#168cf0,#32b6f5);
-  color:white;font-size:17px;font-weight:bold;
-}
-#status{color:#fca5a5;overflow-wrap:anywhere}
-.note{text-align:center;color:#8fa4c0;line-height:1.7}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1220">
+  <title>QH Link Bypass</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 24px 16px;
+      background: #0b1220;
+      color: #f3f7ff;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    main {
+      max-width: 520px;
+      margin: 35px auto;
+    }
+
+    .brand {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 24px;
+      display: grid;
+      place-items: center;
+      margin: auto;
+      background: linear-gradient(135deg, #38bdf8, #2563eb);
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    h1 {
+      font-size: 27px;
+    }
+
+    .subtitle,
+    .hint {
+      color: #9fb2cc;
+      line-height: 1.6;
+    }
+
+    .panel {
+      background: #142238;
+      border: 1px solid #293e5c;
+      border-radius: 26px;
+      padding: 24px;
+    }
+
+    label {
+      display: block;
+      font-weight: 650;
+      margin-bottom: 14px;
+    }
+
+    input {
+      width: 100%;
+      padding: 18px;
+      border-radius: 18px;
+      border: 1px solid #38516f;
+      background: #091525;
+      color: white;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #38bdf8;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 19px;
+      border: 0;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #168ff0, #38bdf8);
+      color: white;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+    }
+
+    #status {
+      display: none;
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 14px;
+      background: #091525;
+      overflow-wrap: anywhere;
+      line-height: 1.6;
+    }
+
+    #status.show {
+      display: block;
+    }
+
+    #status.error {
+      color: #fca5a5;
+    }
+
+    .notice {
+      margin-top: 28px;
+      text-align: center;
+      color: #9fb2cc;
+      line-height: 1.7;
+    }
+
+    .footer {
+      margin-top: 35px;
+      text-align: center;
+      color: #7188a5;
+    }
+  </style>
 </head>
+
 <body>
-<main>
-  <header class="brand">
-    <div class="logo">QH</div>
-    <h1>QH Link Bypass</h1>
-    <p class="subtitle">Nhập liên kết để tiếp tục</p>
-  </header>
+  <main>
+    <header class="brand">
+      <div class="logo">QH</div>
+      <h1>QH Link Bypass</h1>
+      <p class="subtitle">
+        Dán liên kết của bạn vào bên dưới
+      </p>
+    </header>
 
-  <section class="panel">
-    <form id="linkForm">
-      <label for="url">Liên kết cần xử lý</label>
-      <input id="url" type="url"
-        placeholder="https://example.com/..."
-        autocomplete="url" required>
-      <button type="submit">↗ Xử lý liên kết</button>
-      <p id="status" role="status"></p>
-    </form>
-  </section>
+    <section class="panel">
+      <form id="linkForm">
+        <label for="url">Liên kết cần xử lý</label>
 
-  <p class="note">
-    QH Link Bypass · Telegram Mini App
-  </p>
-</main>
+        <input
+          id="url"
+          type="url"
+          placeholder="https://example.com/..."
+          autocomplete="url"
+          required
+        >
 
-<script>
-const form = document.getElementById('linkForm');
-const input = document.getElementById('url');
-const status = document.getElementById('status');
+        <p class="hint">
+          Nhập URL đầy đủ bắt đầu bằng https:// hoặc http://
+        </p>
 
-form.addEventListener('submit', function(event) {
-  event.preventDefault();
+        <button type="submit" id="submitBtn">
+          ↗ Xử lý liên kết
+        </button>
 
-  let parsed;
+        <div id="status" role="status" aria-live="polite"></div>
+      </form>
+    </section>
 
-  try {
-    parsed = new URL(input.value.trim());
-  } catch {
-    status.textContent = 'Vui lòng nhập URL hợp lệ.';
-    return;
-  }
+    <p class="notice">
+      Nhập liên kết hợp lệ để chuyển đến trang đích.
+    </p>
 
-  if (!['http:', 'https:'].includes(parsed.protocol)) {
-    status.textContent = 'Chỉ hỗ trợ liên kết HTTP hoặc HTTPS.';
-    return;
-  }
+    <div class="footer">
+      QH Link Bypass · Telegram Mini App
+    </div>
+  </main>
 
-  window.location.href = parsed.href;
-});
-</script>
+  <script>
+    const form = document.getElementById("linkForm");
+    const input = document.getElementById("url");
+    const status = document.getElementById("status");
+
+    form.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const rawUrl = input.value.trim();
+      let parsed;
+
+      try {
+        parsed = new URL(rawUrl);
+      } catch (error) {
+        showError("Vui lòng nhập một liên kết hợp lệ.");
+        return;
+      }
+
+      if (!["http:", "https:"].includes(parsed.protocol)) {
+        showError("Chỉ hỗ trợ liên kết HTTP hoặc HTTPS.");
+        return;
+      }
+
+      if (!parsed.hostname) {
+        showError("Liên kết không có tên miền hợp lệ.");
+        return;
+      }
+
+      status.className = "show";
+      status.style.color = "#9fb2cc";
+      status.textContent = "Đang chuyển đến trang đích...";
+
+      // Chuyển trực tiếp đến URL đã nhập
+      window.location.assign(parsed.href);
+    });
+
+    function showError(message) {
+      status.className = "show error";
+      status.textContent = message;
+    }
+  </script>
 </body>
 </html>
