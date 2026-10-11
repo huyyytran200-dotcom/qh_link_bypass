@@ -1,77 +1,95 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0b1220">
-  <title>QH Link Bypass</title>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <style>
-    :root { color-scheme: dark; --bg:#0b1220; --card:#121d30; --line:#263750; --blue:#38a7ff; --text:#f4f8ff; --muted:#9eb0c9; }
-    * { box-sizing:border-box; }
-    body { margin:0; min-height:100vh; padding:24px 16px calc(24px + env(safe-area-inset-bottom)); background:radial-gradient(ellipse at top,#17385c 0%,var(--bg) 55%); color:var(--text); font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
-    .wrap { max-width:520px; margin:0 auto; }
-    .brand { text-align:center; padding:24px 8px 28px; }
-    .logo { width:72px;height:72px;border-radius:23px;display:grid;place-items:center;margin:0 auto 14px;background:linear-gradient(145deg,#50c6ff,#1976e8);box-shadow:0 12px 35px #1688e844;font-weight:800;font-size:23px;letter-spacing:-1px; }
-    h1 { font-size:27px; line-height:1.2; margin:0 0 8px; letter-spacing:-.5px; }
-    .subtitle { color:var(--muted); margin:0; }
-    .panel { background:linear-gradient(160deg,#16243a,#101a2b); border:1px solid var(--line); border-radius:22px; padding:20px; box-shadow:0 18px 50px #0003; }
-    label { display:block; font-weight:650; margin:0 0 9px; }
-    .field { width:100%; min-height:54px; border-radius:13px; border:1px solid #314560; background:#0a1424; color:var(--text); padding:14px; outline:none; font:inherit; }
-    .field:focus { border-color:var(--blue); box-shadow:0 0 0 3px #38a7ff22; }
-    .hint { color:var(--muted); font-size:13px; margin:8px 0 18px; }
-    button { width:100%; min-height:54px; border:0; border-radius:14px; background:linear-gradient(100deg,#1689ed,#36b5ff); color:white; font:700 16px inherit; font-weight:750; cursor:pointer; box-shadow:0 8px 22px #1689ed33; }
-    button:active { transform:scale(.99); }
-    .status { display:none; margin-top:16px; padding:13px 14px; border-radius:12px; background:#0b1422; border:1px solid var(--line); color:var(--muted); overflow-wrap:anywhere; }
-    .status.show { display:block; }
-    .notice { color:var(--muted); font-size:13px; text-align:center; margin:18px 8px 0; }
-    .footer { text-align:center; color:#6f849f; font-size:12px; margin-top:24px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1220">
+<title>QH Link Bypass</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;min-height:100vh;padding:24px 16px;
+  background:#0b1220;color:#f3f7ff;
+  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+}
+main{max-width:520px;margin:35px auto}
+.brand{text-align:center;margin-bottom:35px}
+.logo{
+  width:80px;height:80px;border-radius:24px;
+  display:grid;place-items:center;margin:auto;
+  background:linear-gradient(135deg,#38bdf8,#2563eb);
+  font-size:30px;font-weight:bold;
+}
+h1{font-size:30px;margin:20px 0 10px}
+.subtitle{color:#9fb1ca;font-size:17px}
+.panel{
+  background:#142238;border:1px solid #2a405e;
+  border-radius:24px;padding:24px;
+}
+label{display:block;font-weight:700;margin-bottom:12px}
+input{
+  width:100%;padding:17px 14px;border-radius:15px;
+  border:1px solid #39516f;background:#091323;
+  color:white;font-size:16px;outline:none;
+}
+button{
+  width:100%;padding:18px;margin-top:20px;
+  border:0;border-radius:15px;
+  background:linear-gradient(100deg,#168cf0,#32b6f5);
+  color:white;font-size:17px;font-weight:bold;
+}
+#status{color:#fca5a5;overflow-wrap:anywhere}
+.note{text-align:center;color:#8fa4c0;line-height:1.7}
+</style>
 </head>
 <body>
-  <main class="wrap">
-    <header class="brand">
-      <div class="logo" aria-label="QH logo">QH</div>
-      <h1>QH Link Bypass</h1>
-      <p class="subtitle">Dán liên kết của bạn vào bên dưới</p>
-    </header>
+<main>
+  <header class="brand">
+    <div class="logo">QH</div>
+    <h1>QH Link Bypass</h1>
+    <p class="subtitle">Nhập liên kết để tiếp tục</p>
+  </header>
 
-    <section class="panel">
-      <form id="linkForm">
-        <label for="url">Liên kết cần xử lý</label>
-        <input class="field" id="url" name="url" type="url" placeholder="https://example.com/..." autocomplete="url" inputmode="url" required>
-        <p class="hint">Nhập một URL đầy đủ, bắt đầu bằng https:// hoặc http://</p>
-        <button type="submit">↗ &nbsp; Xử lý liên kết</button>
-      </form>
-      <div class="status" id="status" role="status" aria-live="polite"></div>
-    </section>
+  <section class="panel">
+    <form id="linkForm">
+      <label for="url">Liên kết cần xử lý</label>
+      <input id="url" type="url"
+        placeholder="https://example.com/..."
+        autocomplete="url" required>
+      <button type="submit">↗ Xử lý liên kết</button>
+      <p id="status" role="status"></p>
+    </form>
+  </section>
 
-    <p class="notice">Giao diện Mini App mẫu. Chức năng xử lý thật cần được kết nối với máy chủ hoặc logic hiện có của bot.</p>
-    <div class="footer">QH Link Bypass · Telegram Mini App</div>
-  </main>
-  <script>
-    const tg = window.Telegram && window.Telegram.WebApp;
-    if (tg) { tg.ready(); tg.expand(); }
-    const form = document.getElementById('linkForm');
-    const input = document.getElementById('url');
-    const status = document.getElementById('status');
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-      let parsed;
-      try { parsed = new URL(input.value.trim()); }
-      catch (_) {
-        status.textContent = 'Vui lòng nhập một địa chỉ liên kết hợp lệ.';
-        status.classList.add('show');
-        return;
-      }
-      if (!['http:', 'https:'].includes(parsed.protocol)) {
-        status.textContent = 'Chỉ hỗ trợ liên kết bắt đầu bằng http:// hoặc https://.';
-        status.classList.add('show');
-        return;
-      }
-      status.textContent = 'Đã nhận liên kết: ' + parsed.href + ' — giao diện đã hoạt động, nhưng chưa kết nối chức năng xử lý với máy chủ/bot.';
-      status.classList.add('show');
-    });
-  </script>
+  <p class="note">
+    QH Link Bypass · Telegram Mini App
+  </p>
+</main>
+
+<script>
+const form = document.getElementById('linkForm');
+const input = document.getElementById('url');
+const status = document.getElementById('status');
+
+form.addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  let parsed;
+
+  try {
+    parsed = new URL(input.value.trim());
+  } catch {
+    status.textContent = 'Vui lòng nhập URL hợp lệ.';
+    return;
+  }
+
+  if (!['http:', 'https:'].includes(parsed.protocol)) {
+    status.textContent = 'Chỉ hỗ trợ liên kết HTTP hoặc HTTPS.';
+    return;
+  }
+
+  window.location.href = parsed.href;
+});
+</script>
 </body>
 </html>
